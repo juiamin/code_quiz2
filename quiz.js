@@ -1,17 +1,17 @@
-const question = document.getElementById("question");
-const choices = Array.from(document.getElementsByClassName("choice-text"));
-const questionCounterText = document.getElementById('questionCounter');
+var question = document.getElementById("question");
+var choices = Array.from(document.getElementsByClassName("choice-text"));
+var questionCounterText = document.getElementById('questionCounter');
 const scoreText = document.getElementById('score');
 
 
 
-let currentQuestion = {};
-let acceptingAnswers = false;
-let score = 0;
-let questionCounter = 0;
-let availableQuesions = [];
+var currentQuestion = {};
+var acceptingAnswers = false;
+var score = 0;
+var questionCounter = 0;
+var availableQuesions = [];
 
-let questions = [
+var questions = [
   {
     "question": "The default value of a static inter variable of a class in java is ??",
     "choice1": "0",
@@ -39,8 +39,8 @@ let questions = [
 
 ];
 
-const CORRECT_BONUS = 10;
-const MAX_QUESTIONS = 3;
+var CORRECT_BONUS = 5;
+var MAX_QUESTIONS = 3;
 
 startGame = () => {
   questionCounter = 0;
@@ -52,20 +52,20 @@ startGame = () => {
 
 getNewQuestion = () => {
   if (availableQuesions.length === 0 || questionCounter >= MAX_QUESTIONS) {
-    
+
     //go to the end page
     return window.location.assign("end.html");
   }
   questionCounter++;
   questionCounterText.innerText = questionCounter + "/" + MAX_QUESTIONS;
 
-  const questionIndex = Math.floor(Math.random() * availableQuesions.length);
+  var questionIndex = Math.floor(Math.random() * availableQuesions.length);
   currentQuestion = availableQuesions[questionIndex];
   question.innerHTML = currentQuestion.question;
 
 
   choices.forEach(choice => {
-    const number = choice.dataset["number"];
+    var number = choice.dataset["number"];
     choice.innerHTML = currentQuestion["choice" + number];
   });
 
@@ -76,39 +76,39 @@ getNewQuestion = () => {
 
 choices.forEach(choice => {
   choice.addEventListener("click", e => {
-// console.log(e.target);
-if (!acceptingAnswers) return;
+    // console.log(e.target);
+    if (!acceptingAnswers) return;
 
-acceptingAnswers = false;
-const selectedChoice = e.target;
-const selectedAnswer = selectedChoice.dataset["number"];
-//console.log(selectedAnswer);
+    acceptingAnswers = false;
+    var selectedChoice = e.target;
+    var selectedAnswer = selectedChoice.dataset["number"];
+    //console.log(selectedAnswer);
 
-const classToApply =
+    var classToApply =
       selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
+      if (classToApply === "correct") {
+        console.log('hi')
+      incrementScore(CORRECT_BONUS);
+    }
 
-     // if (classToApply === "correct") {
-       // incrementScore(CORRECT_BONUS);
-     // }
-  
-//console.log(classToApply);
-selectedChoice.parentElement.classList.add(classToApply);
+    //console.log(classToApply);
+    selectedChoice.parentElement.classList.add(classToApply);
 
-setTimeout(() => {
-  selectedChoice.parentElement.classList.remove(classToApply);
-  getNewQuestion();
-}, 1000);
+    setTimeout(() => {
+      selectedChoice.parentElement.classList.remove(classToApply);
+      getNewQuestion();
+    }, 1000);
 
-//console.log(selectedAnswer ==currentQuestion.answer);
+    //console.log(selectedAnswer ==currentQuestion.answer);
 
 
   });
-});  
+});
 
 
-//incrementScore = num => {
-  //score += num;
-  //scoreText.innerHTML = score;
-//};
+incrementScore = num => {
+  score += num;
+  scoreText.innerHTML = score;
+};
 
 startGame();
