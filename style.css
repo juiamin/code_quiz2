@@ -151,11 +151,11 @@ input::placeholder {
 }
 
 .correct {
-  background-color: #28a745;
+  background-color: green;
 }
 
 .incorrect {
-  background-color: #dc3545;
+  background-color:red;
 }
 
 #hud {
